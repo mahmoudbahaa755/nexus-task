@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useMovieSearch } from "../../hooks/useMovieSearch";
@@ -7,9 +7,6 @@ export default function useHomePageLogic() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("q") || "";
-  const [currentPage, setCurrentPage] = useState(
-    parseInt(searchParams.get("page") || "1")
-  );
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const {
     movies,
@@ -28,19 +25,23 @@ export default function useHomePageLogic() {
   useEffect(() => {
     const params: Record<string, string> = {};
     if (debouncedSearchQuery) params.q = debouncedSearchQuery;
-    if (currentPage > 1) params.page = currentPage.toString();
+    // if (currentPage > 1) params.page = currentPage.toString();
     // Remove page parameter if there's no search query
     if (!debouncedSearchQuery) {
       delete params.page;
     }
-    // setSearchParams(params);
-  }, [debouncedSearchQuery, currentPage, setSearchParams, filters]);
+  }, [debouncedSearchQuery, setSearchParams, filters]);
 
   useEffect(() => {
     if (debouncedSearchQuery) {
-      search(debouncedSearchQuery, filters, currentPage);
+      search(
+        debouncedSearchQuery,
+        filters,
+        // eslint-disable-next-line no-constant-binary-expression
+        Number(searchParams.get("page")) ?? 1
+      );
     }
-  }, [debouncedSearchQuery, search, filters, currentPage]);
+  }, [debouncedSearchQuery, search, filters, searchParams]);
 
   const handleMovieClick = (imdbID: string) => {
     navigate(`/movie/${imdbID}`);
@@ -49,7 +50,7 @@ export default function useHomePageLogic() {
   const handleFilterChange = (key: string, value: string) => {
     const newFilters = { ...filters, [key]: value };
     updateFilters(newFilters);
-    setCurrentPage(1);
+    // setCurrentPage(1);
     if (debouncedSearchQuery) {
       search(debouncedSearchQuery, newFilters, 1);
     }
@@ -58,7 +59,7 @@ export default function useHomePageLogic() {
   const handleClearFilters = () => {
     const clearedFilters = { type: "", year: "", genre: "", page: 1 };
     updateFilters(clearedFilters);
-    setCurrentPage(1); // Reset to first page when clearing filters
+    // setCurrentPage(1);
     if (debouncedSearchQuery) {
       search(debouncedSearchQuery, clearedFilters, 1);
     }
@@ -66,8 +67,6 @@ export default function useHomePageLogic() {
 
   return {
     searchQuery,
-    currentPage,
-    setCurrentPage,
     handleMovieClick,
     handleFilterChange,
     handleClearFilters,

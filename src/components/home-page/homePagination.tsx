@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import {
   Pagination,
   PaginationContent,
@@ -8,27 +9,21 @@ import {
   PaginationPrevious,
 } from "../ui/pagination";
 
-export default function HomePagination({
-  totalPages,
-  currentPage,
-  setCurrentPage,
-}: {
-  totalPages: number;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
-}) {
+export default function HomePagination({ totalPages }: { totalPages: number }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+      newParams.set("page", String(page));
+      return newParams;
+    });
   };
   return (
     <div className="mt-8 flex justify-center">
-      {" "}
       <Pagination>
-        {" "}
         <PaginationContent>
-          {" "}
           <PaginationItem>
-            {" "}
             <PaginationPrevious
               size={"sm"}
               onClick={() => handlePageChange(currentPage - 1)}
@@ -37,8 +32,8 @@ export default function HomePagination({
                   ? "pointer-events-none opacity-50"
                   : "cursor-pointer"
               }
-            />{" "}
-          </PaginationItem>{" "}
+            />
+          </PaginationItem>
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
             let pageNumber;
             if (totalPages <= 5) {
@@ -52,27 +47,23 @@ export default function HomePagination({
             }
             return (
               <PaginationItem key={pageNumber}>
-                {" "}
                 <PaginationLink
                   size={"sm"}
                   onClick={() => handlePageChange(pageNumber)}
                   isActive={currentPage === pageNumber}
                   className="cursor-pointer"
                 >
-                  {" "}
-                  {pageNumber}{" "}
-                </PaginationLink>{" "}
+                  {pageNumber}
+                </PaginationLink>
               </PaginationItem>
             );
-          })}{" "}
+          })}
           {totalPages > 5 && currentPage < totalPages - 2 && (
             <PaginationItem>
-              {" "}
-              <PaginationEllipsis />{" "}
+              <PaginationEllipsis />
             </PaginationItem>
-          )}{" "}
+          )}
           <PaginationItem>
-            {" "}
             <PaginationNext
               onClick={() => handlePageChange(currentPage + 1)}
               className={
@@ -80,10 +71,10 @@ export default function HomePagination({
                   ? "pointer-events-none opacity-50"
                   : "cursor-pointer"
               }
-            />{" "}
-          </PaginationItem>{" "}
-        </PaginationContent>{" "}
-      </Pagination>{" "}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }

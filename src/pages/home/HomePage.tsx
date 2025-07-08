@@ -19,12 +19,10 @@ const HomePage: React.FC<HomePageProps> = ({
   onToggleFilters,
 }) => {
   const {
-    currentPage,
     handleClearFilters,
     handleFilterChange,
     handleMovieClick,
     searchQuery,
-    setCurrentPage,
     filters,
     totalPages,
     movies,
@@ -53,13 +51,7 @@ const HomePage: React.FC<HomePageProps> = ({
             {!loading && !error && movies.length > 0 && (
               <>
                 <MovieList movies={movies} onMovieClick={handleMovieClick} />
-                {totalPages > 1 && (
-                  <HomePagination
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                  />
-                )}
+                {totalPages > 1 && <HomePagination totalPages={totalPages} />}
               </>
             )}
 
