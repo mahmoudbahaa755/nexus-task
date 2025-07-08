@@ -1,7 +1,7 @@
-import React from 'react';
-import { Calendar, Film } from 'lucide-react';
-import { Movie } from '../types/movie';
-import { useTheme } from '../contexts/ThemeContext';
+import { Calendar, Film } from "lucide-react";
+import React from "react";
+import { useTheme } from "../contexts/ThemeContext";
+import { Movie } from "../types/movie";
 
 interface MovieCardProps {
   movie: Movie;
@@ -10,13 +10,14 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
   const { isDarkMode } = useTheme();
-  
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = isDarkMode 
-      ? 'https://via.placeholder.com/300x400/1f2937/9ca3af?text=No+Image'
-      : 'https://via.placeholder.com/300x400/f3f4f6/6b7280?text=No+Image';
-  };
 
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    e.currentTarget.src = isDarkMode
+      ? "https://via.placeholder.com/300x400/1f2937/9ca3af?text=No+Image"
+      : "https://via.placeholder.com/300x400/f3f4f6/6b7280?text=No+Image";
+  };
   return (
     <div
       onClick={onClick}
@@ -24,9 +25,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
     >
       <div className="relative aspect-[3/4] overflow-hidden">
         <img
-          src={movie.Poster !== 'N/A' ? movie.Poster : (isDarkMode 
-            ? 'https://via.placeholder.com/300x400/1f2937/9ca3af?text=No+Image'
-            : 'https://via.placeholder.com/300x400/f3f4f6/6b7280?text=No+Image')}
+          src={
+            movie.Poster !== "N/A"
+              ? movie.Poster
+              : isDarkMode
+              ? "https://via.placeholder.com/300x400/1f2937/9ca3af?text=No+Image"
+              : "https://via.placeholder.com/300x400/f3f4f6/6b7280?text=No+Image"
+          }
           alt={movie.Title}
           onError={handleImageError}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
