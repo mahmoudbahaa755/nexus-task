@@ -30,7 +30,6 @@ const HomePage: React.FC<HomePageProps> = ({
     movies,
     error,
     loading,
-    setSearchQuery,
   } = useHomePageLogic();
   return (
     <div className="flex">
@@ -46,11 +45,7 @@ const HomePage: React.FC<HomePageProps> = ({
         <div className="container mx-auto px-4 py-8">
           <div className="mb-8">
             <HomeHeader />
-            <SearchBar
-              value={searchQuery}
-              onChange={setSearchQuery}
-              placeholder="Search for movies, series, or episodes..."
-            />
+            <SearchBar />
           </div>
           <div>
             {loading && <LoadingSpinner />}

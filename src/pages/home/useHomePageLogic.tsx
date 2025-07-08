@@ -6,7 +6,7 @@ import { useMovieSearch } from "../../hooks/useMovieSearch";
 export default function useHomePageLogic() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
+  const searchQuery = searchParams.get("q") || "";
   const [currentPage, setCurrentPage] = useState(
     parseInt(searchParams.get("page") || "1")
   );
@@ -33,7 +33,7 @@ export default function useHomePageLogic() {
     if (!debouncedSearchQuery) {
       delete params.page;
     }
-    setSearchParams(params);
+    // setSearchParams(params);
   }, [debouncedSearchQuery, currentPage, setSearchParams, filters]);
 
   useEffect(() => {
@@ -66,7 +66,6 @@ export default function useHomePageLogic() {
 
   return {
     searchQuery,
-    setSearchQuery,
     currentPage,
     setCurrentPage,
     handleMovieClick,
