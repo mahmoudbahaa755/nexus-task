@@ -81,7 +81,6 @@ The app is configured to use HTTPS for the OMDB API to ensure compatibility with
 - Responsive design for mobile and desktop
 - Dark/light theme toggle
 - Loading states and error handling
-- Smooth animations and transitions
 
 ### Data Management
 
