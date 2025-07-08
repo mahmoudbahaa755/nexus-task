@@ -6,20 +6,23 @@ interface Filters {
   type: string;
   year: string;
   genre: string;
+  page: number;
 }
 
 export const useMovieSearch = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
+  const [totalResults, setTotalResults] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<Filters>({
     type: "",
     year: "",
     genre: "",
+    page: 1,
   });
 
   const search = useCallback(
-    async (query: string, currentFilters?: Filters) => {
+    async (query: string, currentFilters?: Filters, page?: number) => {
       if (!query.trim()) {
         // setMovies([]);
         setError(null);
@@ -31,15 +34,18 @@ export const useMovieSearch = () => {
 
       try {
         const filtersToUse = currentFilters || filters;
+        filtersToUse.page = page || 1; // Ensure page is set for pagination
         const data = await getMovies(query, filtersToUse);
-        let results = data.Search || [];
+        const results = data.Search || [];
         console.log(data, "data");
-        // Client-side filtering for genre (since OMDb doesn't support genre filtering directly)
-        if (filtersToUse.genre) {
-          results = results.filter(
-            (movie: Movie) => movie.Type === "movie" // Only filter genre for movies, not series/episodes
-          );
-        }
+        const totalResults = parseInt(data.totalResults) || 0;
+        setTotalResults(totalResults);
+        // Parse totalResults from the API response
+        // if (filtersToUse.genre) {
+        //   results = results.filter(
+        //     (movie: Movie) => movie.Type === "movie" // Only filter genre for movies, not series/episodes
+        //   );
+        // }
 
         setMovies(results);
       } catch (err) {
@@ -56,7 +62,15 @@ export const useMovieSearch = () => {
     setFilters(newFilters);
   }, []);
 
-  return { movies, loading, error, search, filters, updateFilters };
+  return {
+    movies,
+    loading,
+    error,
+    search,
+    filters,
+    updateFilters,
+    totalResults,
+  };
 };
 
 export const useMovieDetails = () => {
@@ -84,5 +98,11 @@ export const useMovieDetails = () => {
     setError(null);
   }, []);
 
-  return { movieDetails, loading, error, fetchDetails, clearDetails };
+  return {
+    movieDetails,
+    loading,
+    error,
+    fetchDetails,
+    clearDetails,
+  };
 };
