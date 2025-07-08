@@ -29,6 +29,10 @@ export default function useHomePageLogic() {
     const params: Record<string, string> = {};
     if (debouncedSearchQuery) params.q = debouncedSearchQuery;
     if (currentPage > 1) params.page = currentPage.toString();
+    // Remove page parameter if there's no search query
+    if (!debouncedSearchQuery) {
+      delete params.page;
+    }
     setSearchParams(params);
   }, [debouncedSearchQuery, currentPage, setSearchParams]);
 
