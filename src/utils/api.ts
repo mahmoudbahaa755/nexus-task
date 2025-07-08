@@ -3,7 +3,7 @@ import { Filters } from "../types/global";
 import { MovieDetails, SearchResponse } from "../types/movie";
 
 const API_KEY = "1e4c919";
-const BASE_URL = "http://www.omdbapi.com/";
+const BASE_URL = "https://www.omdbapi.com/";
 
 export const getMovies = async (
   query?: string,
