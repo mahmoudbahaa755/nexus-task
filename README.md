@@ -64,19 +64,6 @@ npm run dev
 - `pnpm run dev` - Start development server
 - `pnpm run build` - Build for production
 
-## 🔧 Configuration
-
-### Environment Variables
-
-The app uses the OMDB API. The API key is currently hardcoded, but you can move it to environment variables:
-
-1. Create a `.env` file in the root directory
-2. Add your OMDB API key:
-
-```env
-VITE_OMDB_API_KEY=your_api_key_here
-```
-
 ### API Configuration
 
 The app is configured to use HTTPS for the OMDB API to ensure compatibility with production HTTPS deployments. You can find the API configuration in `src/utils/api.ts`.
