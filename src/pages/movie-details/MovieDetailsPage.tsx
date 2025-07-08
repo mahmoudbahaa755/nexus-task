@@ -1,11 +1,11 @@
 import { ArrowLeft } from "lucide-react";
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ErrorMessage from "../components/ErrorMessage";
-import LoadingSpinner from "../components/LoadingSpinner";
-import MovieDetails from "../components/MovieDetails";
-import { Button } from "../components/ui/button";
-import { useMovieDetails } from "../hooks/useMovieSearch";
+import ErrorMessage from "../../components/ErrorMessage";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import MovieDetails from "../../components/MovieDetails";
+import { Button } from "../../components/ui/button";
+import { useMovieDetails } from "../../hooks/useMovieSearch";
 
 const MovieDetailsPage: React.FC = () => {
   const { id } = useParams();
