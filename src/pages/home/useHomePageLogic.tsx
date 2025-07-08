@@ -34,7 +34,7 @@ export default function useHomePageLogic() {
       delete params.page;
     }
     setSearchParams(params);
-  }, [debouncedSearchQuery, currentPage, setSearchParams]);
+  }, [debouncedSearchQuery, currentPage, setSearchParams, filters]);
 
   useEffect(() => {
     if (debouncedSearchQuery) {
@@ -49,7 +49,7 @@ export default function useHomePageLogic() {
   const handleFilterChange = (key: string, value: string) => {
     const newFilters = { ...filters, [key]: value };
     updateFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
     if (debouncedSearchQuery) {
       search(debouncedSearchQuery, newFilters, 1);
     }
