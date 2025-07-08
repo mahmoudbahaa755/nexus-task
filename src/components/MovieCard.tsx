@@ -1,6 +1,7 @@
-import { Calendar, Film } from "lucide-react";
+import { Calendar, Film, Heart } from "lucide-react";
 import React from "react";
 import { useTheme } from "../contexts/ThemeContext";
+import { useFavoritesStore } from "../store/favoritesStore";
 import { Movie } from "../types/movie";
 
 interface MovieCardProps {
@@ -10,6 +11,9 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
   const { isDarkMode } = useTheme();
+  const { addToFavorites, removeFromFavorites, isFavorite } =
+    useFavoritesStore();
+  const isMovieFavorite = isFavorite(movie.imdbID);
 
   const handleImageError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
@@ -18,12 +22,39 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
       ? "https://via.placeholder.com/300x400/1f2937/9ca3af?text=No+Image"
       : "https://via.placeholder.com/300x400/f3f4f6/6b7280?text=No+Image";
   };
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the card onClick
+    if (isMovieFavorite) {
+      removeFromFavorites(movie.imdbID);
+    } else {
+      addToFavorites(movie);
+    }
+  };
   return (
     <div
       onClick={onClick}
       className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-500/50 dark:hover:border-blue-400/50 transition-all duration-300 cursor-pointer transform hover:scale-105 hover:shadow-2xl shadow-lg"
     >
       <div className="relative aspect-[3/4] overflow-hidden">
+        <button
+          onClick={handleFavoriteClick}
+          className={`absolute top-3 right-3 z-10 p-2 rounded-full backdrop-blur-sm transition-all duration-200 hover:scale-110 ${
+            isMovieFavorite
+              ? "bg-red-500/90 text-white hover:bg-red-600/90"
+              : "bg-white/90 dark:bg-gray-800/90 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700"
+          }`}
+          aria-label={
+            isMovieFavorite ? "Remove from favorites" : "Add to favorites"
+          }
+        >
+          <Heart
+            className={`h-4 w-4 transition-all duration-200 ${
+              isMovieFavorite ? "fill-current" : ""
+            }`}
+          />
+        </button>
+
         <img
           src={
             movie.Poster !== "N/A"

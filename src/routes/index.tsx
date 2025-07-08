@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import FavoritesPage from "../pages/favorites/FavoritesPage";
 import HomePage from "../pages/home/HomePage";
 import MovieDetailsPage from "../pages/movie-details/MovieDetailsPage";
 
@@ -22,6 +23,7 @@ export default function AppRoutes({
           />
         }
       />
+      <Route path="/favorites" element={<FavoritesPage />} />
       <Route path="/movie/:id" element={<MovieDetailsPage />} />
     </Routes>
   );

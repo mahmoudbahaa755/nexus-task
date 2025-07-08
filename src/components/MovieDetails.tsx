@@ -1,8 +1,18 @@
-import { Award, Calendar, Clock, Globe, Star, Users } from "lucide-react";
+import {
+  Award,
+  Calendar,
+  Clock,
+  Globe,
+  Heart,
+  Star,
+  Users,
+} from "lucide-react";
 import React from "react";
 import { useTheme } from "../contexts/ThemeContext";
 import RatingSection from "../pages/movie-details/rating-section";
+import { useFavoritesStore } from "../store/favoritesStore";
 import { MovieDetails as MovieDetailsType } from "../types/movie";
+import { Button } from "./ui/button";
 
 interface MovieDetailsProps {
   movie: MovieDetailsType;
@@ -11,6 +21,9 @@ interface MovieDetailsProps {
 
 const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
   const { isDarkMode } = useTheme();
+  const { addToFavorites, removeFromFavorites, isFavorite } =
+    useFavoritesStore();
+  const isMovieFavorite = isFavorite(movie.imdbID);
 
   const handleImageError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
@@ -19,7 +32,22 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
       ? "https://via.placeholder.com/400x600/1f2937/9ca3af?text=No+Image"
       : "https://via.placeholder.com/400x600/f3f4f6/6b7280?text=No+Image";
   };
-  console.log(movie, "movie details");
+
+  const handleFavoriteClick = () => {
+    const movieData = {
+      imdbID: movie.imdbID,
+      Title: movie.Title,
+      Year: movie.Year,
+      Type: movie.Type,
+      Poster: movie.Poster,
+    };
+
+    if (isMovieFavorite) {
+      removeFromFavorites(movie.imdbID);
+    } else {
+      addToFavorites(movieData);
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -44,9 +72,31 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
 
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                {movie.Title}
-              </h1>
+              <div className="flex items-start justify-between mb-4">
+                <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+                  {movie.Title}
+                </h1>
+                <Button
+                  onClick={handleFavoriteClick}
+                  variant={isMovieFavorite ? "default" : "outline"}
+                  className={`flex items-center space-x-2 ${
+                    isMovieFavorite
+                      ? "bg-red-500 hover:bg-red-600 text-white"
+                      : "border-red-500 text-red-500 hover:bg-red-50 dark:hover:bg-red-950"
+                  }`}
+                >
+                  <Heart
+                    className={`h-4 w-4 ${
+                      isMovieFavorite ? "fill-current" : ""
+                    }`}
+                  />
+                  <span>
+                    {isMovieFavorite
+                      ? "Remove from Favorites"
+                      : "Add to Favorites"}
+                  </span>
+                </Button>
+              </div>
               <div className="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-300">
                 <div className="flex items-center space-x-2">
                   <Calendar className="h-4 w-4" />
