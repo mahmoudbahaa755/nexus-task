@@ -11,7 +11,6 @@ export default function useHomePageLogic() {
     parseInt(searchParams.get("page") || "1")
   );
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
-
   const {
     movies,
     loading,
@@ -60,13 +59,6 @@ export default function useHomePageLogic() {
       search(debouncedSearchQuery, clearedFilters, 1);
     }
   };
-
-  // Update the movie search to handle pagination
-  useEffect(() => {
-    if (debouncedSearchQuery) {
-      search(debouncedSearchQuery, filters, currentPage);
-    }
-  }, [debouncedSearchQuery, search, filters, currentPage]);
 
   return {
     searchQuery,

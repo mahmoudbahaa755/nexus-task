@@ -24,9 +24,9 @@ export const useMovieSearch = () => {
   const search = useCallback(
     async (query: string, currentFilters?: Filters, page?: number) => {
       if (!query.trim()) {
-        // setMovies([]);
+        setMovies([]);
         setError(null);
-        // return;
+        return;
       }
 
       setLoading(true);
