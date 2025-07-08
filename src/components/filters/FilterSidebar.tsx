@@ -1,6 +1,6 @@
-import { Calendar, ChevronDown, Film, Filter, Star, X } from "lucide-react";
+import { Calendar, ChevronDown, Film, Filter, X } from "lucide-react";
 import React from "react";
-import { genres, movieTypes, years } from "../../constants/filter-options";
+import { movieTypes, years } from "../../constants/filter-options";
 import { cn } from "../../lib/utils";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -23,7 +23,6 @@ interface FilterSidebarProps {
   filters: {
     type: string;
     year: string;
-    genre: string;
   };
   onFilterChange: (key: string, value: string) => void;
   onClearFilters: () => void;
@@ -38,9 +37,8 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 }) => {
   const [typeOpen, setTypeOpen] = React.useState(true);
   const [yearOpen, setYearOpen] = React.useState(true);
-  const [genreOpen, setGenreOpen] = React.useState(true);
 
-  const hasActiveFilters = filters.type || filters.year || filters.genre;
+  const hasActiveFilters = filters.type || filters.year;
 
   // Convert empty string filters to special "all" values for Select components
   const getSelectValue = (filterValue: string, allValue: string) => {
@@ -171,46 +169,6 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             </CollapsibleContent>
           </Collapsible>
 
-          {/* Genre Filter */}
-          <Collapsible open={genreOpen} onOpenChange={setGenreOpen}>
-            <CollapsibleTrigger asChild>
-              <Button
-                variant="ghost"
-                className="w-full justify-between p-0 h-auto mb-3"
-              >
-                <div className="flex items-center space-x-2">
-                  <Star className="h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">Genre</span>
-                </div>
-                <ChevronDown
-                  className={cn(
-                    "h-4 w-4 transition-transform",
-                    genreOpen && "rotate-180"
-                  )}
-                />
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-2 mb-6">
-              <Select
-                value={getSelectValue(filters.genre, "_all_genres_")}
-                onValueChange={(value) =>
-                  onFilterChange("genre", value === "_all_genres_" ? "" : value)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select genre" />
-                </SelectTrigger>
-                <SelectContent>
-                  {genres.map((genre) => (
-                    <SelectItem key={genre.value} value={genre.value}>
-                      {genre.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </CollapsibleContent>
-          </Collapsible>
-
           {/* Active Filters */}
           {hasActiveFilters && (
             <div className="space-y-3">
@@ -247,24 +205,6 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                         size="icon"
                         className="h-4 w-4 p-0 hover:bg-transparent"
                         onClick={() => onFilterChange("year", "")}
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    </Badge>
-                  </div>
-                )}
-                {filters.genre && (
-                  <div className="flex items-center justify-between">
-                    <Badge
-                      variant="secondary"
-                      className="flex items-center gap-2"
-                    >
-                      Genre: {filters.genre}
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-4 w-4 p-0 hover:bg-transparent"
-                        onClick={() => onFilterChange("genre", "")}
                       >
                         <X className="h-3 w-3" />
                       </Button>
