@@ -69,7 +69,6 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
               />
             </div>
           </div>
-
           <div className="lg:col-span-2 space-y-6">
             <div>
               <div className="flex items-start justify-between mb-4">
@@ -90,11 +89,6 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
                       isMovieFavorite ? "fill-current" : ""
                     }`}
                   />
-                  <span>
-                    {isMovieFavorite
-                      ? "Remove from Favorites"
-                      : "Add to Favorites"}
-                  </span>
                 </Button>
               </div>
               <div className="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-300">

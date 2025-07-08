@@ -44,9 +44,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
               ? "bg-red-500/90 text-white hover:bg-red-600/90"
               : "bg-white/90 dark:bg-gray-800/90 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700"
           }`}
-          aria-label={
-            isMovieFavorite ? "Remove from favorites" : "Add to favorites"
-          }
+          aria-label={isMovieFavorite ? "" : ""}
         >
           <Heart
             className={`h-4 w-4 transition-all duration-200 ${
