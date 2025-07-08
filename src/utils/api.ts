@@ -1,16 +1,58 @@
 const API_KEY = "1e4c919";
 const BASE_URL = "http://www.omdbapi.com/";
-// http://www.omdbapi.com/?i=tt3896198&apikey=8546f8ac
+
 interface Filters {
   type: string;
   year: string;
   genre: string;
 }
 
+interface Movie {
+  Title: string;
+  Year: string;
+  imdbID: string;
+  Type: string;
+  Poster: string;
+}
+
+interface SearchResponse {
+  Search: Movie[];
+  totalResults: string;
+  Response: string;
+}
+
+interface MovieDetails {
+  Title: string;
+  Year: string;
+  Rated: string;
+  Released: string;
+  Runtime: string;
+  Genre: string;
+  Director: string;
+  Writer: string;
+  Actors: string;
+  Plot: string;
+  Language: string;
+  Country: string;
+  Awards: string;
+  Poster: string;
+  Ratings: Array<{ Source: string; Value: string }>;
+  Metascore: string;
+  imdbRating: string;
+  imdbVotes: string;
+  imdbID: string;
+  Type: string;
+  DVD: string;
+  BoxOffice: string;
+  Production: string;
+  Website: string;
+  Response: string;
+}
+
 export const getMovies = async (
   query?: string,
   filters?: Filters
-): Promise<any> => {
+): Promise<SearchResponse> => {
   try {
     let url = `${BASE_URL}?apikey=${API_KEY}${query ? `&s=${query}` : ""}`;
 
@@ -30,8 +72,7 @@ export const getMovies = async (
 
     const response = await fetch(url);
     const data = await response.json();
-    console.log(response, "sadasdasdasd2");
-    console.log(data, "sadasdasdasd");
+
     if (data.Response === "False") {
       throw new Error(data.Error || "No movies found");
     }
@@ -43,12 +84,12 @@ export const getMovies = async (
   }
 };
 
-export const getMovieDetails = async (imdbID: string): Promise<any> => {
+export const getMovieDetails = async (
+  imdbID: string
+): Promise<MovieDetails> => {
   try {
     const response = await fetch(`${BASE_URL}?i=${imdbID}&apikey=${API_KEY}`);
     const data = await response.json();
-    console.log(response, "getMovieDetails2");
-    console.log(data, "getMovieDetails");
 
     if (data.Response === "False") {
       throw new Error(data.Error || "Movie not found");
