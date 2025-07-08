@@ -37,7 +37,6 @@ export const useMovieSearch = () => {
         filtersToUse.page = page || 1; // Ensure page is set for pagination
         const data = await getMovies(query, filtersToUse);
         const results = data.Search || [];
-        console.log(data, "data");
         const totalResults = parseInt(data.totalResults) || 0;
         setTotalResults(totalResults);
         // Parse totalResults from the API response
