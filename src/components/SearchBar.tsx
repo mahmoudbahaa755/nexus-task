@@ -1,6 +1,5 @@
-import React from 'react';
-import { Search, X } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
+import { Search, X } from "lucide-react";
+import React from "react";
 
 interface SearchBarProps {
   value: string;
@@ -8,14 +7,13 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ 
-  value, 
-  onChange, 
-  placeholder = "Search for movies..." 
+const SearchBar: React.FC<SearchBarProps> = ({
+  value,
+  onChange,
+  placeholder = "Search for movies...",
 }) => {
-  const { isDarkMode } = useTheme();
   const handleClear = () => {
-    onChange('');
+    onChange("");
   };
 
   return (

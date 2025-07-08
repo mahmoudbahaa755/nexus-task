@@ -39,12 +39,6 @@ export const useMovieSearch = () => {
         const results = data.Search || [];
         const totalResults = parseInt(data.totalResults) || 0;
         setTotalResults(totalResults);
-        // Parse totalResults from the API response
-        // if (filtersToUse.genre) {
-        //   results = results.filter(
-        //     (movie: Movie) => movie.Type === "movie" // Only filter genre for movies, not series/episodes
-        //   );
-        // }
 
         setMovies(results);
       } catch (err) {
