@@ -1,21 +1,25 @@
-import React from 'react';
-import { Calendar, Clock, Star, Award, Globe, Users } from 'lucide-react';
-import { MovieDetails as MovieDetailsType } from '../types/movie';
-import { useTheme } from '../contexts/ThemeContext';
+import { Award, Calendar, Clock, Globe, Star, Users } from "lucide-react";
+import React from "react";
+import { useTheme } from "../contexts/ThemeContext";
+import RatingSection from "../pages/movie-details/rating-section";
+import { MovieDetails as MovieDetailsType } from "../types/movie";
 
 interface MovieDetailsProps {
   movie: MovieDetailsType;
   onBack: () => void;
 }
 
-const MovieDetails: React.FC<MovieDetailsProps> = ({ movie, onBack }) => {
+const MovieDetails: React.FC<MovieDetailsProps> = ({ movie }) => {
   const { isDarkMode } = useTheme();
-  
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = isDarkMode 
-      ? 'https://via.placeholder.com/400x600/1f2937/9ca3af?text=No+Image'
-      : 'https://via.placeholder.com/400x600/f3f4f6/6b7280?text=No+Image';
+
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    e.currentTarget.src = isDarkMode
+      ? "https://via.placeholder.com/400x600/1f2937/9ca3af?text=No+Image"
+      : "https://via.placeholder.com/400x600/f3f4f6/6b7280?text=No+Image";
   };
+  console.log(movie, "movie details");
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -24,9 +28,13 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie, onBack }) => {
           <div className="lg:col-span-1">
             <div className="aspect-[2/3] rounded-2xl overflow-hidden">
               <img
-                src={movie.Poster !== 'N/A' ? movie.Poster : (isDarkMode 
-                  ? 'https://via.placeholder.com/400x600/1f2937/9ca3af?text=No+Image'
-                  : 'https://via.placeholder.com/400x600/f3f4f6/6b7280?text=No+Image')}
+                src={
+                  movie.Poster !== "N/A"
+                    ? movie.Poster
+                    : isDarkMode
+                    ? "https://via.placeholder.com/400x600/1f2937/9ca3af?text=No+Image"
+                    : "https://via.placeholder.com/400x600/f3f4f6/6b7280?text=No+Image"
+                }
                 alt={movie.Title}
                 onError={handleImageError}
                 className="w-full h-full object-cover"
@@ -36,7 +44,9 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie, onBack }) => {
 
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">{movie.Title}</h1>
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                {movie.Title}
+              </h1>
               <div className="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-300">
                 <div className="flex items-center space-x-2">
                   <Calendar className="h-4 w-4" />
@@ -57,42 +67,62 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie, onBack }) => {
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Plot</h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{movie.Plot}</p>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                Plot
+              </h3>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                {movie.Plot}
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Details</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                  Details
+                </h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-start space-x-3">
                     <Users className="h-4 w-4 text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Director:</span>
-                      <span className="text-gray-900 dark:text-white ml-2">{movie.Director}</span>
+                      <span className="text-gray-600 dark:text-gray-400">
+                        Director:
+                      </span>
+                      <span className="text-gray-900 dark:text-white ml-2">
+                        {movie.Director}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <Users className="h-4 w-4 text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Actors:</span>
-                      <span className="text-gray-900 dark:text-white ml-2">{movie.Actors}</span>
+                      <span className="text-gray-600 dark:text-gray-400">
+                        Actors:
+                      </span>
+                      <span className="text-gray-900 dark:text-white ml-2">
+                        {movie.Actors}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <Globe className="h-4 w-4 text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <span className="text-gray-600 dark:text-gray-400">Language:</span>
-                      <span className="text-gray-900 dark:text-white ml-2">{movie.Language}</span>
+                      <span className="text-gray-600 dark:text-gray-400">
+                        Language:
+                      </span>
+                      <span className="text-gray-900 dark:text-white ml-2">
+                        {movie.Language}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Genre</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                  Genre
+                </h3>
                 <div className="flex flex-wrap gap-2">
-                  {movie.Genre.split(', ').map((genre, index) => (
+                  {movie.Genre.split(", ").map((genre, index) => (
                     <span
                       key={index}
                       className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 rounded-full text-blue-700 dark:text-blue-300 text-sm"
@@ -104,28 +134,20 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({ movie, onBack }) => {
               </div>
             </div>
 
-            {movie.Awards && movie.Awards !== 'N/A' && (
+            {movie.Awards && movie.Awards !== "N/A" && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 flex items-center space-x-2">
                   <Award className="h-5 w-5 text-yellow-400" />
                   <span>Awards</span>
                 </h3>
-                <p className="text-gray-700 dark:text-gray-300">{movie.Awards}</p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  {movie.Awards}
+                </p>
               </div>
             )}
 
             {movie.Ratings && movie.Ratings.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Ratings</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {movie.Ratings.map((rating, index) => (
-                    <div key={index} className="bg-gray-50 dark:bg-gray-700 rounded-xl p-3 text-center">
-                      <div className="text-gray-900 dark:text-white font-semibold">{rating.Value}</div>
-                      <div className="text-gray-600 dark:text-gray-400 text-sm">{rating.Source}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <RatingSection movie={movie} />
             )}
           </div>
         </div>
