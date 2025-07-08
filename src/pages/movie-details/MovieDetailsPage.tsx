@@ -1,11 +1,10 @@
-import { ArrowLeft } from "lucide-react";
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ErrorMessage from "../../components/ErrorMessage";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import MovieDetails from "../../components/MovieDetails";
-import { Button } from "../../components/ui/button";
 import { useMovieDetails } from "../../hooks/useMovieSearch";
+import BackButton from "../../utils/back-btn";
 
 const MovieDetailsPage: React.FC = () => {
   const { id } = useParams();
@@ -32,11 +31,7 @@ const MovieDetailsPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <Button variant="outline" onClick={handleBack} className="mb-6">
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back
-      </Button>
-
+      <BackButton />
       {loading && <LoadingSpinner />}
       {error && <ErrorMessage message={error} />}
       {movieDetails && !loading && !error && (
