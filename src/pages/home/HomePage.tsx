@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import React from "react";
 import ErrorMessage from "../../components/ErrorMessage";
 import FilterSidebar from "../../components/FilterSidebar";
 import HomePagination from "../../components/home-page/homePagination";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import MovieList from "../../components/MovieList";
 import SearchBar from "../../components/SearchBar";
-import { useDebounce } from "../../hooks/useDebounce";
-import { useMovieSearch } from "../../hooks/useMovieSearch";
+import useHomePageLogic from "./useHomePageLogic";
 
 interface HomePageProps {
   isFiltersOpen: boolean;
@@ -18,71 +16,20 @@ const HomePage: React.FC<HomePageProps> = ({
   isFiltersOpen,
   onToggleFilters,
 }) => {
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
-  const [currentPage, setCurrentPage] = useState(
-    parseInt(searchParams.get("page") || "1")
-  );
-  const debouncedSearchQuery = useDebounce(searchQuery, 500);
-
   const {
-    movies,
-    loading,
-    error,
-    search,
+    currentPage,
+    handleClearFilters,
+    handleFilterChange,
+    handleMovieClick,
+    searchQuery,
+    setCurrentPage,
     filters,
-    updateFilters,
-    totalResults,
-  } = useMovieSearch();
-
-  // Calculate total pages (assuming 10 results per page from OMDB API)
-  const resultsPerPage = 10;
-  const totalPages = Math.ceil(totalResults / resultsPerPage);
-  console.log(totalPages, "totalPages", totalResults);
-  // Update URL when search query or page changes
-  useEffect(() => {
-    const params: Record<string, string> = {};
-    if (debouncedSearchQuery) params.q = debouncedSearchQuery;
-    if (currentPage > 1) params.page = currentPage.toString();
-    setSearchParams(params);
-  }, [debouncedSearchQuery, currentPage, setSearchParams]);
-
-  useEffect(() => {
-    if (debouncedSearchQuery) {
-      search(debouncedSearchQuery, filters, currentPage);
-    }
-  }, [debouncedSearchQuery, search, filters, currentPage]);
-
-  const handleMovieClick = (imdbID: string) => {
-    navigate(`/movie/${imdbID}`);
-  };
-
-  const handleFilterChange = (key: string, value: string) => {
-    const newFilters = { ...filters, [key]: value };
-    updateFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
-    if (debouncedSearchQuery) {
-      search(debouncedSearchQuery, newFilters, 1);
-    }
-  };
-
-  const handleClearFilters = () => {
-    const clearedFilters = { type: "", year: "", genre: "", page: 1 };
-    updateFilters(clearedFilters);
-    setCurrentPage(1); // Reset to first page when clearing filters
-    if (debouncedSearchQuery) {
-      search(debouncedSearchQuery, clearedFilters, 1);
-    }
-  };
-
-  // Update the movie search to handle pagination
-  useEffect(() => {
-    if (debouncedSearchQuery) {
-      search(debouncedSearchQuery, filters, currentPage);
-    }
-  }, [debouncedSearchQuery, search, filters, currentPage]);
-
+    totalPages,
+    movies,
+    error,
+    loading,
+    setSearchQuery,
+  } = useHomePageLogic();
   return (
     <div className="flex">
       <FilterSidebar
