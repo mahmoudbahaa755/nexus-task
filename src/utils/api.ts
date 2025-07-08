@@ -29,7 +29,6 @@ export const getMovies = async (
     if (data.Response === "False") {
       throw new Error(data.Error || "No movies found");
     }
-
     return data;
   } catch (error) {
     console.error("Error searching movies:", error);

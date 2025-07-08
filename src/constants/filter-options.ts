@@ -17,23 +17,3 @@ export const years = [
   { value: "1990-1999", label: "1990s" },
   { value: "1980-1989", label: "1980s" },
 ];
-
-export const genres = [
-  { value: "_all_genres_", label: "All Genres" },
-  { value: "Action", label: "Action" },
-  { value: "Adventure", label: "Adventure" },
-  { value: "Animation", label: "Animation" },
-  { value: "Comedy", label: "Comedy" },
-  { value: "Crime", label: "Crime" },
-  { value: "Documentary", label: "Documentary" },
-  { value: "Drama", label: "Drama" },
-  { value: "Family", label: "Family" },
-  { value: "Fantasy", label: "Fantasy" },
-  { value: "Horror", label: "Horror" },
-  { value: "Mystery", label: "Mystery" },
-  { value: "Romance", label: "Romance" },
-  { value: "Sci-Fi", label: "Sci-Fi" },
-  { value: "Thriller", label: "Thriller" },
-  { value: "War", label: "War" },
-  { value: "Western", label: "Western" },
-];

@@ -1,7 +1,6 @@
 interface Filters {
   type: string;
   year: string;
-  genre: string;
   page?: number; // Optional for pagination
 }
 

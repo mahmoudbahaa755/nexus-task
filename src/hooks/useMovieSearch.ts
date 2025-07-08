@@ -5,7 +5,6 @@ import { getMovieDetails, getMovies } from "../utils/api";
 interface Filters {
   type: string;
   year: string;
-  genre: string;
   page: number;
 }
 
@@ -17,7 +16,6 @@ export const useMovieSearch = () => {
   const [filters, setFilters] = useState<Filters>({
     type: "",
     year: "",
-    genre: "",
     page: 1,
   });
 
