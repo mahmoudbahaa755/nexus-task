@@ -28,7 +28,6 @@ export const useMovieSearch = () => {
         setError(null);
         return;
       }
-
       setLoading(true);
       setError(null);
 

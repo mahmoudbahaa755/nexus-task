@@ -14,7 +14,9 @@ export const getMovies = async (
       const filterParams: Record<string, string> = {};
       Object.entries(filters).forEach(([key, value]) => {
         if (value !== undefined || value !== null || value.length > 0) {
-          filterParams[key] = String(value);
+          if (key === "year") {
+            filterParams["y"] = String(value);
+          } else filterParams[key] = String(value);
         }
       });
       const params = new URLSearchParams(filterParams);
