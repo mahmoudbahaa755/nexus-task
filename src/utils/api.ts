@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { Filters } from "../types/global";
 import { MovieDetails, SearchResponse } from "../types/movie";
 
@@ -21,7 +22,6 @@ export const getMovies = async (
 
     const response = await fetch(url);
     const data = await response.json();
-
     if (data.Response === "False") {
       throw new Error(data.Error || "No movies found");
     }
@@ -48,4 +48,39 @@ export const getMovieDetails = async (
     console.error("Error fetching movie details:", error);
     throw error;
   }
+};
+
+// TanStack Query hooks
+export const useMovies = (query?: string, filters?: Filters) => {
+  return useQuery({
+    queryKey: ["movies", query, filters],
+    queryFn: () => getMovies(query, filters),
+    enabled: !!query || !!filters,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    select: (data) => data,
+    retry: (failureCount, error) => {
+      // Don't retry if it's a "No movies found" error
+      if (error instanceof Error && error.message.includes("No movies found")) {
+        return false;
+      }
+      return failureCount < 3;
+    },
+  });
+};
+
+export const useMovieDetails = (imdbID: string) => {
+  return useQuery({
+    queryKey: ["movie", imdbID],
+    queryFn: () => getMovieDetails(imdbID),
+    enabled: !!imdbID,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    select: (data) => data,
+    retry: (failureCount, error) => {
+      // Don't retry if it's a "Movie not found" error
+      if (error instanceof Error && error.message.includes("Movie not found")) {
+        return false;
+      }
+      return failureCount < 3;
+    },
+  });
 };
