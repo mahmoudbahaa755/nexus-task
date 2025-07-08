@@ -6,7 +6,7 @@ export const movieTypes = [
 ];
 
 export const years = [
-  { value: "", label: "All Years" },
+  { value: "#", label: "All Years" },
   { value: "2024", label: "2024" },
   { value: "2023", label: "2023" },
   { value: "2022", label: "2022" },
