@@ -49,8 +49,8 @@ const FavoritesPage: React.FC = () => {
           )}
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-8">
-          <div className="flex items-center justify-between">
+        <div className="bg-white w-fit dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-8">
+          <div className="flex gap-5 items-center justify-between">
             <span className="text-gray-600 dark:text-gray-400">
               Total favorites:
             </span>
