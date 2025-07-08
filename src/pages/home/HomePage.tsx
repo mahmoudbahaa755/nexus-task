@@ -1,6 +1,6 @@
 import React from "react";
 import ErrorMessage from "../../components/ErrorMessage";
-import FilterSidebar from "../../components/FilterSidebar";
+import FilterSidebar from "../../components/filters/FilterSidebar";
 import HomePagination from "../../components/home-page/homePagination";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import MovieList from "../../components/MovieList";
