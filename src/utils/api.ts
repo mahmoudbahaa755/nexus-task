@@ -1,53 +1,8 @@
+import { Filters } from "../types/global";
+import { MovieDetails, SearchResponse } from "../types/movie";
+
 const API_KEY = "1e4c919";
 const BASE_URL = "http://www.omdbapi.com/";
-
-interface Filters {
-  type: string;
-  year: string;
-  genre: string;
-}
-
-interface Movie {
-  Title: string;
-  Year: string;
-  imdbID: string;
-  Type: string;
-  Poster: string;
-}
-
-interface SearchResponse {
-  Search: Movie[];
-  totalResults: string;
-  Response: string;
-}
-
-interface MovieDetails {
-  Title: string;
-  Year: string;
-  Rated: string;
-  Released: string;
-  Runtime: string;
-  Genre: string;
-  Director: string;
-  Writer: string;
-  Actors: string;
-  Plot: string;
-  Language: string;
-  Country: string;
-  Awards: string;
-  Poster: string;
-  Ratings: Array<{ Source: string; Value: string }>;
-  Metascore: string;
-  imdbRating: string;
-  imdbVotes: string;
-  imdbID: string;
-  Type: string;
-  DVD: string;
-  BoxOffice: string;
-  Production: string;
-  Website: string;
-  Response: string;
-}
 
 export const getMovies = async (
   query?: string,
@@ -55,19 +10,15 @@ export const getMovies = async (
 ): Promise<SearchResponse> => {
   try {
     let url = `${BASE_URL}?apikey=${API_KEY}${query ? `&s=${query}` : ""}`;
-
-    if (filters?.type) {
-      url += `&type=${filters.type}`;
-    }
-
-    if (filters?.year) {
-      // Handle year ranges
-      if (filters.year.includes("-")) {
-        const [startYear] = filters.year.split("-");
-        url += `&y=${startYear}`;
-      } else {
-        url += `&y=${filters.year}`;
-      }
+    if (filters) {
+      const filterParams: Record<string, string> = {};
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined || value !== null || value.length > 0) {
+          filterParams[key] = String(value);
+        }
+      });
+      const params = new URLSearchParams(filterParams);
+      url += `&${params.toString()}`;
     }
 
     const response = await fetch(url);
