@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import ErrorMessage from "../components/ErrorMessage";
-import FilterSidebar from "../components/FilterSidebar";
-import HomePagination from "../components/home-page/homePagination";
-import LoadingSpinner from "../components/LoadingSpinner";
-import MovieList from "../components/MovieList";
-import SearchBar from "../components/SearchBar";
-import { useDebounce } from "../hooks/useDebounce";
-import { useMovieSearch } from "../hooks/useMovieSearch";
+import ErrorMessage from "../../components/ErrorMessage";
+import FilterSidebar from "../../components/FilterSidebar";
+import HomePagination from "../../components/home-page/homePagination";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import MovieList from "../../components/MovieList";
+import SearchBar from "../../components/SearchBar";
+import { useDebounce } from "../../hooks/useDebounce";
+import { useMovieSearch } from "../../hooks/useMovieSearch";
 
 interface HomePageProps {
   isFiltersOpen: boolean;

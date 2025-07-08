@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import MovieDetailsPage from "../pages/MovieDetailsPage";
+import HomePage from "../pages/home/HomePage";
+import MovieDetailsPage from "../pages/movie-details/MovieDetailsPage";
 
 interface AppRoutesProps {
   isFiltersOpen: boolean;
