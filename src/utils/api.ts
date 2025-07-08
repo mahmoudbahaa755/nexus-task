@@ -12,10 +12,9 @@ export const getMovies = async (
     let url = `${BASE_URL}?apikey=${API_KEY}${query ? `&s=${query}` : ""}`;
     if (filters) {
       const filterParams: Record<string, string> = {};
-      if (filters.page) {
-        filterParams["page"] = filters.page.toString();
-      }
+      if (filters.page) filterParams["page"] = filters.page.toString();
       if (filters.year) filterParams["y"] = filters.year.toString();
+      if (filters.type) filterParams["type"] = filters.type;
       const params = new URLSearchParams(filterParams);
       url += `&${params.toString()}`;
     }
